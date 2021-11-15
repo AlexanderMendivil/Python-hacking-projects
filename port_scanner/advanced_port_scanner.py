@@ -4,24 +4,32 @@ from socket import *
 import optparse
 from threading import *
 
+def connection_scan(tgtHost, tgtPort):
+    try:
+        sock = socket(AF_INET, SOCK_STREAM)
+        sock.connect((tgtHost, tgtPort))
+        print(f"[+] tcp open: {tgtPort}")
+    except:
+        print(f"[-] tcp closed: {tgtPort}")
+    finally:
+        sock.close()
+
 def port_scan(tgtHost, tgtPorts):
     try:
-        tgtIP = get_host_by_name(tgtHost)
+        tgtIP = gethostbyname(tgtHost)
     except:
         print(f"Unknow host: {tgtHost}")
     
     try:
-        tgtName = get_host_by_address(tgtIP)
+        tgtName = gethostbyaddr(tgtIP)
         print(f"[+] Scan results for: {tgtName[0]}")
     except:
-        print("[+] Scan results for: ")
+        print(f"[+] Scan results for: {tgtIP}")
     setdefaulttimeout(1)
-    for tgtPort in tgtPort:
+    for tgtPort in tgtPorts:
         t = Thread(target=connection_scan, args=(tgtHost, int(tgtPort)))
         t.start()
 
-def get_host_by_name():
-    print(1)
 
 def main():
     parser = optparse.OptionParser('Usage of program: '+ '-H <target host> -p <target ports>')
