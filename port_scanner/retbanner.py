@@ -18,7 +18,7 @@ def main():
     for port in range(1, 100):
         banner = retBanner(ip, port)
         if banner:
-            print(f"[+] {ip} on port: {port}: {banner.strip('\n')}")
+            print(f"[+] {ip} on port: {port}:"+ banner.strip('\n'))
 
 
 if __name__ == "__main__":
